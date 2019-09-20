@@ -74,6 +74,40 @@ const App = () => {
 		{id: 5, hex: '#F1C40F', name: 'Amarelo' }
 	];
 
+	// Armazena cor selecionada pelo usuário
+	const [fontColor, setFontColor] = useState('#d0d');
+
+	const changeFontColor = (event, id) => {
+		const color = event.target.value;
+
+		setFontColor({
+			...fontColor,
+			[id]: color
+		});
+	};
+
+	const fontOptions = [
+		'Vibes',
+		'Mansalva',
+		'Cute Font',
+		'Indie Flower',
+		'Abril Fatface',
+		'Amatic SC'
+	];
+
+	// Armazena cor selecionada pelo usuário
+	const [fontType, setFontType] = useState('Vibes');
+
+	const changeFontType = (event, id) => {
+		const font = event.target.value;
+
+		setFontType({
+			...fontType,
+			[id]: font
+		});
+	};
+
+
 	return (
 		<div className="App">
 			<div className="container">
@@ -99,7 +133,7 @@ const App = () => {
 
 				{dogImageFromBreed && (
 					<>
-						<h2 className="title">Esse foi o cachorro encontrado</h2>
+						<h2 className="title">Esses foram os cachorros encontrados</h2>
 
 						<div className="dog-image-container">
 							{dogImageFromBreed.map((dogImage, idx) => (
@@ -112,7 +146,13 @@ const App = () => {
 										/>
 
 										{dogName && (
-											<h3 className="dog-name">{dogName[idx]}</h3>
+											<h3
+												className="dog-name"
+												style={{
+													color: fontColor && fontColor[idx] ? fontColor[idx] : '#000',
+													fontFamily: fontType && fontType[idx] ? fontType[idx]: 'Arial'
+												}}
+											>{dogName[idx]}</h3>
 										)}
 									</div>
 
@@ -141,8 +181,21 @@ const App = () => {
 											</div>
 
 											<div>
+												<label>Font:</label>
+												<select onChange={e => changeFontType(e, idx)} defaultValue="default">
+													<option value="default" disabled>Selecione uma font:</option>
+
+													{fontOptions.map((font, index) => (
+														<option key={index} value={font}>
+															{font}
+														</option>
+													))}
+												</select>
+											</div>
+
+											<div>
 												<label>Cor da fonte:</label>
-												<select defaultValue="default">
+												<select onChange={e => changeFontColor(e, idx)} defaultValue="default">
 													<option value="default" disabled>Selecione uma cor:</option>
 
 													{colorsOptions.map(color => (
